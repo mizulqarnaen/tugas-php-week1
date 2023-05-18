@@ -12,43 +12,43 @@
 	EOD;
 
 	// membuat array dari setiap baris
-	$array = array_values(array_filter(explode(PHP_EOL,$data)));
+	$arrayData = array_values(array_filter(explode(PHP_EOL,$data)));
 
 	// inisialisasi variabel array yang dibutuhkan
 	$numbers = [];
 	$counter = [];
 
-	foreach ($array as $key => $value) {
+	foreach ($arrayData as $key => $value) {
 		
 		// mengubah data setiap barisnya menjadi array dengan pemisahnya yaitu koma
-		$array[$key] = explode(', ',$value);
+		$arrayData[$key] = explode(', ',$value);
 
 		// lalu looping array tersebut untuk memisahkan karakter dan angka
-		foreach ($array[$key] as $k => $val) {
+		foreach ($arrayData[$key] as $k => $val) {
 			
 			if(strlen($val) > 1) { // jika datanya lebih dari 1 karakter
 
 				// mengambil semua angka yang ada pada string
-				preg_match_all('/-?\\d+(?:\\d+)?/m', $val, $array[$key][$k]);
+				preg_match_all('/-?\\d+(?:\\d+)?/m', $val, $arrayData[$key][$k]);
 
 				// menyimpan angka angka tersebut ke index baru dengan nama 'data'
-				$array[$key]['data'] = $array[$key][$k][0];
+				$arrayData[$key]['data'] = $arrayData[$key][$k][0];
 
 			} else { // jika datanya terdiri dari 1 karakter
 
 				// menyimpan karakter tersebut ke index baru dengan nama 'key'
 				// index 'data' dan 'key' ini hanya untuk mempermudah pembacaan data saja
-				$array[$key]['key'][] = $val;
+				$arrayData[$key]['key'][] = $val;
 
 			}
 
 			// hapus array karena sudah digantikan dengan index 'key' dan 'data'
-			unset($array[$key][$k]);
+			unset($arrayData[$key][$k]);
 
 		}
 
 		// angka angka pada index data dimasukkan ke array baru
-		foreach ($array[$key]['data'] as $number) {
+		foreach ($arrayData[$key]['data'] as $number) {
 			array_push($numbers, $number);
 		}
 
@@ -60,7 +60,7 @@
 	// looping angka angka yang diurutkan tersebut untuk dicek satu per satu
 	foreach ($numbers as $number) {
 		
-		foreach ($array as $key => $value) {
+		foreach ($arrayData as $key => $value) {
 			
 			if(in_array($number, $value['data'])) {
 
